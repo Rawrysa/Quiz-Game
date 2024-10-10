@@ -5,45 +5,41 @@
         static void Main(string[] args)
         {
             Dictionary<string, string> questions = GetQandA();
-            string question, answer;
+            string answer;
             int score = 0;
             int numberOfQuestions = questions.Count;
 
             Console.WriteLine("----------------------------------------\nAnswer true or false for the following questions\n-----------------------------------------");
 
-            while (questions.Count > 0) 
+            foreach(var question in questions.Keys)
             {
-                question = questions.Keys.ElementAt(new Random().Next(0, questions.Count));
                 Console.WriteLine("\n" + question);
+                
+                answer = GetValidatedAnswer();
 
-                bool isvalid = false;
-
-                do
+                if (answer == questions.GetValueOrDefault(question))
                 {
-                    answer = Console.ReadLine().ToLower();
-
-                    if (answer == "true" || answer == "false")
-                    {
-                        isvalid = true;
-                        if (answer == questions.GetValueOrDefault(question))
-                        {
-                            score++;
-                        }
-
-                        questions.Remove(question);
-                    }
-                    else
-                    {
-                        Console.WriteLine("\nEnter the correct value\n");
-                    }
+                    score++;
                 }
-                while (!isvalid);
 
+                questions.Remove(question);
             }
 
             Console.WriteLine($"You scored {score} out of {numberOfQuestions}");
         }
 
+        public static string GetValidatedAnswer()
+        {
+            string answer = Console.ReadLine().ToLower();
+
+            while (answer != "true" && answer != "false")
+            {
+                Console.WriteLine("\nEnter the correct value\n");
+                answer = Console.ReadLine().ToLower();
+            }
+
+            return answer;
+        }
         public static Dictionary<string, string> GetQandA()
         {
             Dictionary<string, string> QandA = new Dictionary<string, string>();
