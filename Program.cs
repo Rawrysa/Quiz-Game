@@ -4,24 +4,39 @@
     {
         static void Main(string[] args)
         {
-            bool exit = false;
             Dictionary<string, string> questions = GetQandA();
+            string question, answer;
+
 
             do
             {
-                Console.WriteLine(questions
+                question = questions.Keys.ElementAt(new Random().Next(0, questions.Count));
+                Console.WriteLine(question);
+
+                answer = Console.ReadLine().ToLower();
+
+                if (answer == "true" || answer == "false")
+                {
+                    Console.WriteLine("\n" + ((answer == questions.GetValueOrDefault(question)) ? "That is correct" : "That is false"));
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("The value entered is invalid");
+                }
+
             }
-            while (!exit);
+            while (true);
         }
 
         public static Dictionary<string, string> GetQandA()
         {
             Dictionary<string, string> QandA = new Dictionary<string, string>();
 
-            QandA.Add("C# is a statically typed language.", "True");
-            QandA.Add("C# supports multiple inheritance.", "False");
-            QandA.Add("C# is platform-independent.", "True");
-            QandA.Add("C# is case-sensitive.", "True");
+            QandA.Add("C# is a statically typed language.", "true");
+            QandA.Add("C# supports multiple inheritance.", "false");
+            QandA.Add("C# is platform-independent.", "true");
+            QandA.Add("C# is case-sensitive.", "true");
 
             return QandA;
         }
