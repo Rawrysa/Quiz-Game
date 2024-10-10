@@ -6,27 +6,42 @@
         {
             Dictionary<string, string> questions = GetQandA();
             string question, answer;
+            int score = 0;
+            int numberOfQuestions = questions.Count;
 
+            Console.WriteLine("----------------------------------------\nAnswer true or false for the following questions\n-----------------------------------------");
 
-            do
+            while (questions.Count > 0) 
             {
                 question = questions.Keys.ElementAt(new Random().Next(0, questions.Count));
-                Console.WriteLine(question);
+                Console.WriteLine("\n" + question);
 
-                answer = Console.ReadLine().ToLower();
+                bool isvalid = false;
 
-                if (answer == "true" || answer == "false")
+                do
                 {
-                    Console.WriteLine("\n" + ((answer == questions.GetValueOrDefault(question)) ? "That is correct" : "That is false"));
-                    break;
+                    answer = Console.ReadLine().ToLower();
+
+                    if (answer == "true" || answer == "false")
+                    {
+                        isvalid = true;
+                        if (answer == questions.GetValueOrDefault(question))
+                        {
+                            score++;
+                        }
+
+                        questions.Remove(question);
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nEnter the correct value\n");
+                    }
                 }
-                else
-                {
-                    Console.WriteLine("The value entered is invalid");
-                }
+                while (!isvalid);
 
             }
-            while (true);
+
+            Console.WriteLine($"You scored {score} out of {numberOfQuestions}");
         }
 
         public static Dictionary<string, string> GetQandA()
